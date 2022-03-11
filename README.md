@@ -10,6 +10,6 @@
 
 
 # Concept:
-* __General approach__ - possibility to use multiple evolutionary algorithms such as artificial bee colony __(ABC)__ *(default)*, ant colony optimization __(ACO)__ or genetic __(GA)__
-* __Simulink integration__ - simulate closed controll loop via Matlab Python engine and Simulink model including a PID controller and plant object
+* __General approach__ - possibility to use multiple evolutionary algorithms such as artificial bee colony __(ABC)__ *(default)*
+* __Simulink integration__ - simulate closed control loop via Matlab Python engine and Simulink model including a PID controller and plant object
 * __Multithreading__ - each agent is assigned a different thread, algorithm iteration completes when all agents finish their simulation
