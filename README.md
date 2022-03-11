@@ -10,6 +10,7 @@
 
 
 # Concept:
-* __General approach__ - possibility to use multiple evolutionary algorithms such as artificial bee colony __(ABC)__ *(default)*
-* __Simulink integration__ - simulate closed control loop via Matlab Python engine and Simulink model including a PID controller and plant object
-* __Multithreading__ - each agent is assigned a different thread, algorithm iteration completes when all agents finish their simulation
+* __General approach__ - possibility to use multiple evolutionary algorithms such as artificial bee colony __(ABC)__ *(default)*.
+* __Simulink integration__ - simulate closed control loop via Matlab Python engine and Simulink model including a PID controller and plant object.
+* __Multithreading__ - each agent is assigned a different thread, algorithm iteration completes when all agents finish their simulation.
+* __GUI__ - control simulation and view results via graphical user interface
