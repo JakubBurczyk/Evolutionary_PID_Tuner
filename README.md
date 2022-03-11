@@ -7,3 +7,9 @@
 * __Python 3.9__ - as of Matlab 2021b it is the highest supported python version for Matlab Python engine, can be downloaded [here](https://www.python.org/downloads/release/python-3910/).
 
 ### Python packages:
+
+
+# Concept:
+* __General approach__ - possibility to use multiple evolutionary algorithms such as artificial bee colony __(ABC)__ *(default)*, ant colony optimization __(ACO)__ or genetic __(GA)__
+* __Simulink integration__ - simulate closed controll loop via Matlab Python engine and Simulink model including a PID controller and plant object
+* __Multithreading__ - each agent is assigned a different thread, algorithm iteration completes when all agents finish their simulation
