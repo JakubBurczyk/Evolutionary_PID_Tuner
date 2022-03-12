@@ -6,7 +6,7 @@ import random
 import termcolor
 import numpy as np
 from typing import List
-
+import time
 
 class Agent:
     _thread: threading.Thread
@@ -43,11 +43,27 @@ class Agent:
         pass
 
     def run(self):
-        print(self)
+        #print(self)
+        time.sleep(1)
         pass
 
-    def finish(self):
+    def finish(self) -> None:
+        """
+        Join agent's thread.
+        WARNING: This blocks the invoking thread untill this thread is finished.
+
+        :return: None
+        """
         self._thread.join()
+
+    @property
+    def isRunning(self) -> bool:
+        """
+        Check if agent's thread is running the simulation
+
+        :return: If thread is running returns True, else returns False
+        """
+        return self._thread.is_alive()
 
     def __str__(self):
         return termcolor.colored(f"| ID: {self.id} | Thread: {self._thread}", 'blue')

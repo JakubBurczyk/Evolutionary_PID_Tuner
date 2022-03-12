@@ -1,3 +1,5 @@
+import datetime
+
 from PyQt5.QtWidgets import *
 from PyQt5 import *
 from PyQt5 import QtWidgets, uic, QtGui
@@ -47,7 +49,7 @@ class Window(QMainWindow):
 
         :return: None
         """
-        # print(f"win: {self._name} update")
+        #print(f"\rwin: {self._name} update {datetime.datetime.now()}",end = "")
         pass
 
     @property
