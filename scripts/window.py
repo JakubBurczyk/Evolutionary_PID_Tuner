@@ -5,6 +5,9 @@ from PyQt5 import *
 from PyQt5 import QtWidgets, uic, QtGui
 import sys
 from termcolor import colored
+from typing import Dict, Callable
+
+from widgets import Button
 
 
 class Window(QMainWindow):
@@ -19,6 +22,11 @@ class Window(QMainWindow):
         super(Window, self).__init__()
         uic.loadUi(uiFilePath, self)
         self.openedState = False
+
+        self.buttons: Dict[str, Button] = {}
+
+    def say(self, msg = None):
+        print(self._name + " | MSG = " + msg)
 
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
         """
@@ -51,6 +59,9 @@ class Window(QMainWindow):
         """
         #print(f"\rwin: {self._name} update {datetime.datetime.now()}",end = "")
         pass
+
+    def addButton(self, name, function: Callable):
+        self.buttons[name] = Button(self, name, function)
 
     @property
     def isOpened(self) -> bool:

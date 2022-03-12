@@ -30,7 +30,7 @@ class PidTuner:
         i = 0
         while i < self._iterations:
             if self._finished is True:
-                print(f"Iter loop {self._iterationCounter}")
+                #print(f"Iter loop {self._iterationCounter}")
                 self.runStep()
                 self._iterationCounter += 1
                 i += 1
@@ -59,6 +59,10 @@ class PidTuner:
         self._running = False
 
     def runAlgo(self):
+        """
+        @TODO: Implement algorithm
+        :return:
+        """
         pass
 
     def updateState(self):
@@ -76,6 +80,10 @@ class PidTuner:
         pass
 
     def getData(self):
+        """
+        @TODO: FILL
+        :return:
+        """
         if not self._running and not self._finished:
             self._finished = True
             return self._iterationCounter
