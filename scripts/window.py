@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import *
 from PyQt5 import QtWidgets, uic, QtGui
 import sys
+from termcolor import colored
 
 
 class Window(QMainWindow):
@@ -13,7 +14,7 @@ class Window(QMainWindow):
 
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
         self.openedState = False
-        print(f"Closing window: {self._name}")
+        print(colored(f"Closing window: {self._name}",'red'))
         pass
 
     def open(self) -> None:
