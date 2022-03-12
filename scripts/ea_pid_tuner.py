@@ -8,11 +8,14 @@ class PidTuner:
         self._agents = [Agent(i, randomInit=True) for i in range(agentCount)]
         pass
 
-    def runStep(self):
-        # threadList: List[threading.Thread] = []
-
+    def runStep(self) -> None:
+        """
+        Run each agent's simulation thread.
+        """
+        ''' Start each thread'''
         for agent in self._agents:
             agent.start()
 
+        '''Finish joins each agent's thread, crucial to run in separate loop!'''
         for agent in self._agents:
             agent.finish()

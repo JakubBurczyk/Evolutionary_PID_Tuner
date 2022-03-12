@@ -6,7 +6,7 @@ if __name__ == '__main__':
     tuner.runStep()
 
     gui = GUI()
-    gui.addWindow("mainWindow", "GUI_v1.ui")
-    gui.openWindow("mainWindow")
+    gui.addWindow(name="mainWindow", file="GUI_v1.ui")
+    gui.openWindow(name="mainWindow")
 
     gui.start()
