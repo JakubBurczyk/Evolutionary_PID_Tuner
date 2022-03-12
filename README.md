@@ -7,8 +7,10 @@
 * __Python 3.9__ - as of Matlab 2021b it is the highest supported python version for Matlab Python engine, can be downloaded [__here__](https://www.python.org/downloads/release/python-3910/).
 * __Qt Tools__ - tools to design UI in Qt framework ```pip install pyqt5-tools --pre```. The ```designer.exe``` will be installed in ```PYTHON_INSTALL_PATH\Lib\site-packages\pyqt5_tools``` ([stack overflow](https://stackoverflow.com/questions/30222572/how-to-install-qtdesigner))
 ### Python packages:
-* __termcolor__ - colored text in terminal ```pip install termcolor```.
+* __termcolor__ - colored text in terminal ```pip install termcolor```
 * __PyQt5__ - GUI framework ```pip install pyqt5```
+* __numpy__ - numerical operations and data structures ```pip install numpy```
+* __matplotlib__ - plotting library ```pip install matplotlib```
 
 # Concept:
 * __General approach__ - possibility to use multiple evolutionary algorithms such as artificial bee colony __(ABC)__ *(default)*.
