@@ -28,12 +28,14 @@ class GUI:
 
     def start(self) -> None:
         """
+        WARNING: THIS IS A BLOCKING METHOD, USE update() METHOD IF EXTERNAL LOOP IS NEEDED.
+
         Start the GUI with opened windows. If no window is opened before the start() method is invoked,
         the application will be terminated.
 
         :return: None
         """
-        while any([win.isOpened for win in self.windows.values()]):
+        while self.isOpened:
             self.update()
         pass
 
@@ -63,3 +65,12 @@ class GUI:
 
         return self.windows[name].isOpened
         pass
+
+    @property
+    def isOpened(self) -> bool:
+        """
+        Checks if any window is opened.
+
+        :return: State of the GUI, if any window is opened - True, else - False
+        """
+        return any([win.isOpened for win in self.windows.values()])
