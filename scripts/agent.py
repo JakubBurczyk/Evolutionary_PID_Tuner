@@ -5,6 +5,7 @@ import threading
 import random
 import termcolor
 import numpy as np
+from typing import List
 
 
 class Agent:
@@ -32,14 +33,11 @@ class Agent:
         self.I = np.random.normal(loc=mean, scale=std_deviation, size=1)
         self.D = np.random.normal(loc=mean, scale=std_deviation, size=1)
 
-    def print(self):
-        text = f"| ID {self.id} | Thread: {self._thread}"
-
-    def start(self, threadList: list[threading.Thread]):
+    def start(self, threadList: list[threading.Thread] = None):
         self._thread = threading.Thread(target=self.run)
         self._thread.setDaemon(True)
 
-        threadList.append(self._thread)
+        # threadList.append(self._thread)
 
         self._thread.start()
         pass
@@ -48,3 +46,8 @@ class Agent:
         print(self)
         pass
 
+    def finish(self):
+        self._thread.join()
+
+    def __str__(self):
+        return termcolor.colored(f"| ID: {self.id} | Thread: {self._thread}", 'blue')
