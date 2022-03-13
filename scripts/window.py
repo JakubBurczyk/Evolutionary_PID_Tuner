@@ -6,11 +6,11 @@ from PyQt5 import QtWidgets, uic, QtGui
 import sys
 from termcolor import colored
 from typing import Dict, Callable
-
-from widgets import Button
+import scripts.widgets as widgets
 
 
 class Window(QMainWindow):
+
     def __init__(self, windowName, uiFilePath):
         """
         Class describing a window that can be show on the screen.
@@ -23,7 +23,7 @@ class Window(QMainWindow):
         uic.loadUi(uiFilePath, self)
         self.openedState = False
 
-        self.buttons: Dict[str, Button] = {}
+        self.buttons: Dict[str, widgets.Button] = {}
 
     def say(self, msg = None):
         print(self._name + " | MSG = " + msg)
@@ -61,7 +61,7 @@ class Window(QMainWindow):
         pass
 
     def addButton(self, name, function: Callable):
-        self.buttons[name] = Button(self, name, function)
+        self.buttons[name] = widgets.Button(self, name, function)
 
     @property
     def isOpened(self) -> bool:

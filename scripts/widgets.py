@@ -5,28 +5,38 @@ import sys
 from termcolor import colored
 
 from typing import Callable
+import scripts.window as window
+
+from abc import ABC
 
 
-class Widget:
-    def __init__(self, win, name: str):
+class Widget(ABC):
+
+    def __init__(self, win: window.Window, name: str):
         self._window = win
         self._name = name
-        self.widget = getattr(self._window, self._name)
+        self._widget = getattr(self._window, self._name)
         pass
 
     @property
     def name(self):
         return self._name
 
+    @property
+    def widget(self):
+        return self._widget
+        pass
+
 
 class Button(Widget):
-    widget: QPushButton
+    _widget: QPushButton
 
-    def __init__(self, win, name: str, function: Callable, *args, **kwargs):
+    def __init__(self, win: window.Window, name: str, function: Callable):
         super(Button, self).__init__(win, name)
-        print(args)
-        print(kwargs)
-        self.widget.clicked.connect(function)
+        self._widget.clicked.connect(function)
         pass
+
+
+
 
 

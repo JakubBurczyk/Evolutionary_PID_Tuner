@@ -9,11 +9,12 @@ if __name__ == '__main__':
     gui.openWindow(name="mainWindow")
 
     gui.windows["mainWindow"].addButton("pushButton", lambda: gui.windows["mainWindow"].say(gui.windows["mainWindow"].buttons["pushButton"].name))
+    print(gui.windows["mainWindow"].buttons["pushButton"].widget)
 
     tuner.start()
     while gui.isOpened:
         gui.update()
-        data = tuner.getData()
+        data = tuner.getIteration()
         if data is not None:
             print(colored(" " + str(datetime.datetime.now()) + " |  "+ str(data),'red'))
 

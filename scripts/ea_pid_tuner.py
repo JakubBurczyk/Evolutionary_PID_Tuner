@@ -79,7 +79,7 @@ class PidTuner:
             pass
         pass
 
-    def getData(self):
+    def getIteration(self):
         """
         @TODO: FILL
         :return:
