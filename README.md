@@ -26,7 +26,7 @@
   * Iteration count
   * Initial PID parameter deviation
   * Plant transfer function
-  * Controler setpoint
+  * Controller setpoint
 * __Statistics__ - view of various statistics regarding algorithm performance and simulation:
   * Best and worst agent's plant response in each iteration
   * Best agent's response characteristcs:
