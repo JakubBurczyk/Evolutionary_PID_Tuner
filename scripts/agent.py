@@ -8,6 +8,7 @@ import numpy as np
 from typing import List
 import time
 
+
 class Agent:
     _thread: threading.Thread
     id: int

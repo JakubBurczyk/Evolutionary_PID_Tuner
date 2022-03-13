@@ -46,7 +46,7 @@ class Window(QMainWindow):
         :return: None
         """
         # print(f"opening window {self._name}")
-        if not self.isOpened:
+        if not self.openedState:
             self.openedState = True
             self.show()
         pass
