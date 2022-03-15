@@ -6,7 +6,7 @@
 * __Matlab and simuliunk__ - tested with version 2021b.
 * __Matlab Python engine__ - install manual and refference can be found [__here__](https://www.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html).
 * __Python 3.9__ - as of Matlab 2021b it is the highest supported python version for Matlab Python engine, can be downloaded [__here__](https://www.python.org/downloads/release/python-3910/).
-* __Qt Tools__ - tools to design UI in Qt framework ```pip install pyqt5-tools --pre```. The ```designer.exe``` will be installed in ```PYTHON_INSTALL_PATH\Lib\site-packages\pyqt5_tools``` ([stack overflow](https://stackoverflow.com/questions/30222572/how-to-install-qtdesigner))
+* __Qt Tools__ - tools to design UI in Qt framework ```pip install pyqt5-tools --pre```. The ```designer.exe``` will be installed in ```PYTHON_INSTALL_PATH\Lib\site-packages\pyqt5_tools``` ([__stack overflow__](https://stackoverflow.com/questions/30222572/how-to-install-qtdesigner))
 
 ### Python packages:
 Python packages are listed in ```requirements.txt``` file. They can be installed using ```pip install -r requirements.txt```
