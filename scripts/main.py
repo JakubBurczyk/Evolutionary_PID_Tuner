@@ -1,3 +1,5 @@
+import random
+
 from ea_pid_tuner import *
 from gui import *
 
@@ -8,15 +10,21 @@ if __name__ == '__main__':
     gui.addWindow(name="mainWindow", file="GUI_v1.ui")
     gui.openWindow(name="mainWindow")
 
+    testValue = 0
+
     gui.windows["mainWindow"].addButton("pushButton", lambda: gui.windows["mainWindow"].say(gui.windows["mainWindow"].buttons["pushButton"].name))
-    gui.windows["mainWindow"].addButton("pushButton_2", lambda: gui.windows["mainWindow"].say("DUPA"))
-    print(gui.windows["mainWindow"].buttons["pushButton"].widget)
+    gui.windows["mainWindow"].addButton("pushButton_2", lambda: gui.windows["mainWindow"].lcds["lcdNumber"].display(random.random()))
+    gui.windows["mainWindow"].addLCD("lcdNumber")
+    gui.windows["mainWindow"].lcds["lcdNumber"].setCallback(lambda: testValue)
 
     tuner.start()
+
     while gui.isOpened:
         gui.update()
-        data = tuner.getIteration()
+        data = tuner.getIteration() #CRITICAL!!! DO NOT REMOVE
+        testValue = random.random()
+
         if data is not None:
-            print(colored(" " + str(datetime.datetime.now()) + " |  "+ str(data),'red'))
+            print(colored(" " + str(datetime.datetime.now()) + " |  " + str(data), 'red'))
 
         pass
