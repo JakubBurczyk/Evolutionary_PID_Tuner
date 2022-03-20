@@ -24,8 +24,9 @@ class Window(QMainWindow):
         self.openedState = False
 
         self.buttons: Dict[str, widgets.Button] = {}
+        self.lcds: Dict[str, widgets.LCD] = {}
 
-    def say(self, msg = None):
+    def say(self, msg=None):
         print(self._name + " | MSG = " + msg)
 
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
@@ -36,7 +37,7 @@ class Window(QMainWindow):
         :return: None
         """
         self.openedState = False
-        print(colored(f"Closing window: {self._name}",'red'))
+        print(colored(f"Closing window: {self._name}", 'red'))
         pass
 
     def open(self) -> None:
@@ -58,10 +59,16 @@ class Window(QMainWindow):
         :return: None
         """
         #print(f"\rwin: {self._name} update {datetime.datetime.now()}",end = "")
+        for name, lcd in self.lcds.items():
+            if lcd.updateable:
+                lcd.update()
         pass
 
     def addButton(self, name, function: Callable):
         self.buttons[name] = widgets.Button(self, name, function)
+
+    def addLCD(self, name):
+        self.lcds[name] = widgets.LCD(self, name)
 
     @property
     def isOpened(self) -> bool:
