@@ -12,6 +12,7 @@ if __name__ == '__main__':
 
     testValue = 0
 
+<<<<<<< HEAD
     gui.windows["mainWindow"].addButton("pushButton", lambda: tuner.start())
     gui.windows["mainWindow"].addButton("pushButton_2", lambda: gui.windows["mainWindow"].lcds["lcdNumber"].display(random.random()))
     gui.windows["mainWindow"].addLCD("lcdNumber")
@@ -19,6 +20,15 @@ if __name__ == '__main__':
 
     #tuner.start()
 
+=======
+    gui.windows["mainWindow"].addButton("pushButton", lambda: gui.windows["mainWindow"].say(gui.windows["mainWindow"].buttons["pushButton"].name))
+    gui.windows["mainWindow"].addButton("pushButton_2", lambda: gui.windows["mainWindow"].lcds["lcdNumber"].display(random.random()))
+    gui.windows["mainWindow"].addLCD("lcdNumber")
+    gui.windows["mainWindow"].lcds["lcdNumber"].setCallback(lambda: testValue)
+
+    tuner.start()
+
+>>>>>>> main
     while gui.isOpened:
         gui.update()
         data = tuner.getIteration() #CRITICAL!!! DO NOT REMOVE
