@@ -65,13 +65,34 @@ class Window(QMainWindow):
                 lcd.update()
         pass
 
-    def addButton(self, name, function: Callable):
+    def addButton(self, name, function: Callable) -> 'widgets.Button':
+        """
+        Add a button from the UI to the Window object.
+
+        :param name: Name of the button in the UI
+        :param function: Function to link the button pressed trigger
+        :return: Reference to the added widgets.Button object
+        """
         self.buttons[name] = widgets.Button(self, name, function)
+        return self.buttons[name]
 
-    def addLCD(self, name):
+    def addLCD(self, name) -> 'widgets.LCD':
+        """
+        Add a LCD display from the UI to the Window object.
+
+        :param name: Name of the LCD in the UI
+        :return: Reference to the added widgets.LCD object
+        """
         self.lcds[name] = widgets.LCD(self, name)
+        return self.lcds[name]
 
-    def addSpinBox(self, name, double=False):
+    def addSpinBox(self, name, double=False) -> 'widgets.SpinBoxAbstract':
+        """
+
+        :param name: Name of the spinbox in the UI
+        :param double: Type of the spinbox, default: double=False -> int values, double=True -> float values
+        :return: Reference to the added widgets.SpinBoxAbstract (depending on the 'double' param object will change to either widgets.SpinBox or widgets.DoubleSpinBox)
+        """
         spinbox = None
         if double is False:
             spinbox = widgets.SpinBox(self, name)
@@ -79,6 +100,7 @@ class Window(QMainWindow):
             spinbox = widgets.DoubleSpinBox(self, name)
 
         self.spinboxes[name] = spinbox
+        return self.spinboxes[name]
 
     @property
     def isOpened(self) -> bool:

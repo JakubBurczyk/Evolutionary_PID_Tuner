@@ -15,16 +15,20 @@ class GUI:
         print(colored("Initializing GUI",'green'))
         pass
 
-    def addWindow(self, name: str, file: str) -> None:
+    def addWindow(self, name: str, file: str) -> Window:
         """
         :param name: Name of the window in GUI dictionary
         :param file: Name of the .ui file describing layout
+
+        :return Window: Reference to the added Window object
         """
         if name not in self.windows.keys():
             self.windows[name] = Window(name, os.path.join(self.uisDir, file))
+            return self.windows[name]
         else:
             raise AttributeError("That window already exists")
         pass
+
 
     def start(self) -> None:
         """
