@@ -25,9 +25,15 @@ class BeeAlgo:
 
         pass
 
+    def run(self):
+        self.runAgents()
+        self.selectElites()
+
     def selectElites(self):
+        self._agents.sort(key=lambda ag: ag.cost, reverse=False)
+
         for agent in self._agents:
-            print(agent.cost)
+            print(colored(agent.cost, "magenta"))
         pass
 
     def runAgents(self) -> None:
@@ -46,4 +52,25 @@ class BeeAlgo:
             agent.finish()
 
         self._running = False
+
+    @property
+    def isRunning(self) -> bool:
+        """
+        Check whether an iteration is running
+        :return:
+        """
+        return self._running
+
+    @property
+    def hasFinished(self) -> bool:
+        """
+        Returns whether the tuner has finished an iteration.
+        Changes state of Finished to False.
+        WARNING: HAS TO BE INVOKED BEFORE NEXT runStep() call.
+
+        :return: boolean True if an iteration was finished
+        """
+
+        return self._finished
+
 

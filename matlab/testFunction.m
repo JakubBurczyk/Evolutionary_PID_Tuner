@@ -9,8 +9,10 @@ assignin('base',"D",KD)
 out = sim("untitled1.slx");
 response = out.yout;
 info = stepinfo(response);
-cost = info.Overshoot
-
+cost = info.Overshoot;
+if(cost ==0)
+    cost = 99999999;
+end
 
 end
 

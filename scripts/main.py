@@ -15,7 +15,7 @@ if __name__ == '__main__':
     gui.windows["mainWindow"].addButton("pushButton", lambda: tuner.start())
     gui.windows["mainWindow"].addButton("pushButton_2", lambda: gui.windows["mainWindow"].lcds["lcdNumber"].display(random.random()))
     gui.windows["mainWindow"].addLCD("lcdNumber")
-    gui.windows["mainWindow"].lcds["lcdNumber"].setCallback(lambda: testValue)
+    #gui.windows["mainWindow"].lcds["lcdNumber"].setCallback(lambda: testValue)
 
     #tuner.start()
 

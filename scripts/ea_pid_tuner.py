@@ -3,6 +3,7 @@ import threading
 from agent import *
 from bee_algorithm import *
 
+
 class PidTuner:
     # threadList: List[threading.Thread]
     _running: bool
@@ -16,7 +17,7 @@ class PidTuner:
         self._iterations = itCount
         self._iterationCounter = 0
         self._tunerThread = None
-        self._ba = BeeAlgo(1)
+        self._ba = BeeAlgo(agentCount)
         pass
 
     def start(self):
@@ -31,7 +32,7 @@ class PidTuner:
         i = 0
         while i < self._iterations:
             if self._finished is True:
-                #print(f"Iter loop {self._iterationCounter}")
+                print(f"Iter loop {self._iterationCounter}")
                 #self.runStep()
                 self._iterationCounter += 1
                 i += 1
@@ -64,8 +65,8 @@ class PidTuner:
         @TODO: Implement algorithm
         :return:
         """
-        self._ba.runAgents()
-        self._ba.selectElites()
+        self._finished = False
+        self._ba.run()
         pass
 
     def updateState(self):
@@ -89,7 +90,7 @@ class PidTuner:
         """
         if not self._running and not self._finished:
             self._finished = True
-            return self._iterationCounter
+            return self._ba._agents[0].cost
         else:
             return None
 
