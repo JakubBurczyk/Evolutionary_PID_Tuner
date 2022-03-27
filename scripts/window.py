@@ -25,6 +25,7 @@ class Window(QMainWindow):
 
         self.buttons: Dict[str, widgets.Button] = {}
         self.lcds: Dict[str, widgets.LCD] = {}
+        self.spinboxes: Dict[str, widgets.SpinBoxAbstract] = {}
 
     def say(self, msg=None):
         print(self._name + " | MSG = " + msg)
@@ -69,6 +70,15 @@ class Window(QMainWindow):
 
     def addLCD(self, name):
         self.lcds[name] = widgets.LCD(self, name)
+
+    def addSpinBox(self, name, double=False):
+        spinbox = None
+        if double is False:
+            spinbox = widgets.SpinBox(self, name)
+        else:
+            spinbox = widgets.DoubleSpinBox(self, name)
+
+        self.spinboxes[name] = spinbox
 
     @property
     def isOpened(self) -> bool:

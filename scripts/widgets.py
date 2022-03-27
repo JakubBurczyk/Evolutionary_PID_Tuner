@@ -39,6 +39,35 @@ class Button(Widget):
         pass
 
 
+class SpinBoxAbstract(Widget):
+    def __init__(self, win: window.Window, name: str):
+        super(SpinBoxAbstract, self).__init__(win, name)
+        pass
+
+    @property
+    def value(self):
+        return self._widget.value()
+        pass
+
+
+class SpinBox(SpinBoxAbstract):
+    _widget: QSpinBox
+    value: int
+
+    def __init__(self, win: window.Window, name: str):
+        super(SpinBox, self).__init__(win, name)
+        pass
+
+
+class DoubleSpinBox(SpinBoxAbstract):
+    _widget: QDoubleSpinBox
+    value: float
+
+    def __init__(self, win: window.Window, name: str):
+        super(DoubleSpinBox, self).__init__(win, name)
+        pass
+
+
 class LCD(Widget):
     _widget: QLCDNumber
     getValue: Callable

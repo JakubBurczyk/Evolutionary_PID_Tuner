@@ -20,6 +20,10 @@ class PidTuner:
         self._ba = BeeAlgo(agentCount)
         pass
 
+    def __del__(self):
+        print("Deleting pid tuner")
+        del self._ba
+
     def start(self):
         print("Starting tuner")
         self._finished = True

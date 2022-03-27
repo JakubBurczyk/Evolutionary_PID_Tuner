@@ -2,7 +2,7 @@ from agent import *
 import matlab.engine
 import os
 from termcolor import colored
-
+import atexit
 
 class BeeAlgo:
 
@@ -16,14 +16,19 @@ class BeeAlgo:
         print(colored("Setting scripts path:" + self.matlabScriptsPath,"yellow"))
         self.eng = matlab.engine.start_matlab()
         self.eng.addpath(self.matlabScriptsPath)
+
         print(colored("STARTED BeeAlgo matlab engine: " + str(datetime.datetime.now()),"red"))
 
         self.nargoutCount = 1
         self.functionName = "testFunction"
 
         self._agents = [Agent(eng=self.eng ,functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True) for i in range(agentCount)]
-
+        atexit.register(self.kill)
         pass
+
+    def kill(self):
+        print(colored("Killing BA matlab engine"),"red")
+        self.eng.exit()
 
     def run(self):
         self.runAgents()
