@@ -10,15 +10,28 @@ import time
 
 
 class Agent:
-    _thread: threading.Thread
+    _thread: threading.Thread or None
+    _eng: matlab.engine
+    _functionName: str
+    nargoutCount: int
     id: int
     P: float
     I: float
     D: float
+    cost: float
 
-    def __init__(self, id: int, randomInit: bool = False, p: float = 1.0, i: float = 1.0, d: float = 1.0):
-        self.id = id
+    def __init__(self, eng: matlab.engine, functionName: str, nargoutCount:int , randomInit: bool = False, p: float = 1.0, i: float = 1.0, d: float = 1.0):
+        self._eng = eng
+        self._functionName = functionName
+        self.nargoutCount = nargoutCount
+
         self._thread = None
+        self._isElite = False
+
+        self.P = 1
+        self.I = 1
+        self.D = 1
+        self.cost = 0
 
         if randomInit:
             self.randomInit()
@@ -26,7 +39,6 @@ class Agent:
             self.P = p
             self.I = i
             self.D = d
-
         pass
 
     def randomInit(self, mean: float = 1, std_deviation: float = 1):
@@ -45,7 +57,9 @@ class Agent:
 
     def run(self):
         #print(self)
-        time.sleep(1)
+        print(f"Thread[{self._thread}] START: ", datetime.datetime.now())
+        self.cost = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
+        print(f"Thread[{self._thread}] FINISH: ", datetime.datetime.now())
         pass
 
     def finish(self) -> None:

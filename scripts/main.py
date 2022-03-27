@@ -19,7 +19,6 @@ if __name__ == '__main__':
 
     #tuner.start()
 
-
     while gui.isOpened:
         gui.update()
         data = tuner.getIteration() #CRITICAL!!! DO NOT REMOVE

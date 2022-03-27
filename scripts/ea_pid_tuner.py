@@ -1,7 +1,7 @@
 import threading
 
 from agent import *
-
+from bee_algorithm import *
 
 class PidTuner:
     # threadList: List[threading.Thread]
@@ -9,13 +9,14 @@ class PidTuner:
     _finished: bool
     _tunerThread: threading.Thread
 
-    def __init__(self,agentCount=1, itCount=1):
-        self._agents = [Agent(i, randomInit=True) for i in range(agentCount)]
+    def __init__(self, agentCount=1, itCount=1):
+        #self._agents = [Agent(i, randomInit=True) for i in range(agentCount)]
         self._running = False
         self._finished = True
         self._iterations = itCount
         self._iterationCounter = 0
         self._tunerThread = None
+        self._ba = BeeAlgo(1)
         pass
 
     def start(self):
@@ -31,7 +32,7 @@ class PidTuner:
         while i < self._iterations:
             if self._finished is True:
                 #print(f"Iter loop {self._iterationCounter}")
-                self.runStep()
+                #self.runStep()
                 self._iterationCounter += 1
                 i += 1
                 """HERE WE WILL RUN ALGO"""
@@ -63,6 +64,8 @@ class PidTuner:
         @TODO: Implement algorithm
         :return:
         """
+        self._ba.runAgents()
+        self._ba.selectElites()
         pass
 
     def updateState(self):
