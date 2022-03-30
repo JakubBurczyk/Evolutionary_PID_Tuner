@@ -105,6 +105,7 @@ class BeeAlgo:
             self._agents.append(
                 Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True))
 
+
     def runAgents(self, agents: List[Agent]) -> None:
         """
         Run each agent's simulation thread.
