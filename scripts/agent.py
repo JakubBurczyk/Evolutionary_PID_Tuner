@@ -57,9 +57,9 @@ class Agent:
 
     def run(self):
         #print(self)
-        print(f"Thread[{self._thread}] START: ", datetime.datetime.now())
+        #print(f"Thread[{self._thread}] START: ", datetime.datetime.now())
         self.cost = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
-        print(f"Thread[{self._thread}] FINISH: ", datetime.datetime.now())
+        #print(f"Thread[{self._thread}] FINISH: ", datetime.datetime.now())
         pass
 
     def finish(self) -> None:
@@ -81,4 +81,4 @@ class Agent:
         return self._thread.is_alive()
 
     def __str__(self):
-        return termcolor.colored(f"| ID: {self.id} | Thread: {self._thread}", 'blue')
+        return termcolor.colored(f"Thread: {self._thread}", 'blue')
