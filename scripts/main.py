@@ -4,7 +4,7 @@ from ea_pid_tuner import *
 from gui import *
 
 if __name__ == '__main__':
-    tuner = PidTuner(agentCount=5, itCount=5)
+    tuner = PidTuner(agentCount=5, itCount=2)
 
     gui = GUI()
     mainWin = gui.addWindow(name="mainWindow", file="GUI_v1.ui")

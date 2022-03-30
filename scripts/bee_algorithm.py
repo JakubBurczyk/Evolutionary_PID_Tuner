@@ -64,6 +64,7 @@ class BeeAlgo:
         allAreas = self.recruitNewBees()
         temp = sum(allAreas.values(), [])
         self.runAgents(temp)
+        self.selectNewPopulation(allAreas)
 
     def selectBestBees(self):
         self._agents.sort(key=lambda ag: ag.cost, reverse=False)
@@ -93,10 +94,14 @@ class BeeAlgo:
             allAreas[leadBee] = singleArea
 
     def selectNewPopulation(self, allAreas) -> None:
-        self._agents = []
+        self._agents.clear()
 
         for leadBee, bees in allAreas.items():
+            print('test')
+            print(bees)
+            print(leadBee)
             temp = bees.append(leadBee)
+            print(temp)
             temp.sort(key=lambda ag: ag.cost, reverse=False)
             self._agents.append(temp[0])
 
