@@ -97,13 +97,9 @@ class BeeAlgo:
         self._agents.clear()
 
         for leadBee, bees in allAreas.items():
-            print('test')
-            print(bees)
-            print(leadBee)
-            temp = bees.append(leadBee)
-            print(temp)
-            temp.sort(key=lambda ag: ag.cost, reverse=False)
-            self._agents.append(temp[0])
+            bees.append(leadBee)
+            bees.sort(key=lambda ag: ag.cost, reverse=False)
+            self._agents.append(bees[0])
 
         while len(self._agents) < self.agentCount:
             self._agents.append(
