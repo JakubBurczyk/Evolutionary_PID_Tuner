@@ -85,10 +85,12 @@ class BeeAlgo:
     def createNewArea(self, allAreas, bees, number):
         for leadBee in bees:
             singleArea = []
+
             for i in range(number):
-                new_p = np.random.uniform(leadBee.P - self._searchArea/2, leadBee.P + self._searchArea/2)
-                new_i = np.random.uniform(leadBee.I - self._searchArea/2, leadBee.I + self._searchArea/2)
-                new_d = np.random.uniform(leadBee.D - self._searchArea/2, leadBee.D + self._searchArea/2)
+                new_p = np.random.default_rng().uniform(leadBee.P - self._searchArea/2, leadBee.P + self._searchArea/2)
+                new_i = np.random.default_rng().uniform(leadBee.I - self._searchArea/2, leadBee.I + self._searchArea/2)
+                new_d = np.random.default_rng().uniform(leadBee.D - self._searchArea/2, leadBee.D + self._searchArea/2)
+
                 newBee = Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=False, p=new_p, i=new_i, d=new_d)
                 singleArea.append(newBee)
             allAreas[leadBee] = singleArea
@@ -99,12 +101,14 @@ class BeeAlgo:
         for leadBee, bees in allAreas.items():
             bees.append(leadBee)
             bees.sort(key=lambda ag: ag.cost, reverse=False)
+
+            for b in bees:
+                print(b.cost)
             self._agents.append(bees[0])
 
         while len(self._agents) < self.agentCount:
             self._agents.append(
                 Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True))
-
 
     def runAgents(self, agents: List[Agent]) -> None:
         """

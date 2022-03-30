@@ -81,4 +81,4 @@ class Agent:
         return self._thread.is_alive()
 
     def __str__(self):
-        return termcolor.colored(f"Thread: {self._thread}", 'blue')
+        return termcolor.colored(f"Bee |Thread: {self._thread} | P: {self.P} | I: {self.I} | D: {self.D} | Cost: {self.cost}", 'yellow')
