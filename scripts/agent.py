@@ -34,6 +34,8 @@ class Agent:
         self.I = 1
         self.D = 1
         self.cost = np.inf
+        self.t = []
+        self.response = []
 
         if randomInit:
             self.randomInit()
@@ -61,10 +63,10 @@ class Agent:
 
         #print(f"Thread[{self._thread}] START: ", datetime.datetime.now())
         try:
-            self.cost = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
+            self.cost, self.t, self.response = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
 
         except Exception as e:
-            print(colored("AGENT ENCOUNTERED SIMULATION ERROR, DISMISSING HIS RESULT, Caused by:" + e.__cause__))
+            print(colored("AGENT ENCOUNTERED SIMULATION ERROR, DISMISSING HIS RESULT, Caused by:" + str(e)))
             self.cost = np.inf
         #print(f"Thread[{self._thread}] FINISH: ", datetime.datetime.now())
         pass

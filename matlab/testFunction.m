@@ -1,4 +1,4 @@
-function [cost] = testFunction(KP,KI,KD)
+function [cost,t,response] = testFunction(KP,KI,KD)
 %TESTFUNCTION Summary of this function goes here
 %   Detailed explanation goes here
 assignin('base',"P",KP)
@@ -9,6 +9,7 @@ time_of_simulation=10; %[s]
 
 out = sim("untitled1.slx");
 response = out.yout;
+t = response.time;
 
 info = stepinfo(response.signals.values);
 

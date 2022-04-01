@@ -68,7 +68,7 @@ class EvolutionalTuner:
                                   " | start iteration:  " + str(iterationResult.startIteration) +
                                   " | end iteration:  " + str(iterationResult.endIteration) +
                                   " | finished: " + str(iterationResult.finished) +
-                                  " | Lowest cost: " + str(iterationResult.bestAgent.cost),
+                                  " | Lowest cost: " + str(iterationResult.cost),
                                   'red'))
                     pass
 

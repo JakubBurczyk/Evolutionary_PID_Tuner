@@ -6,16 +6,17 @@ import atexit
 from dataclasses import dataclass
 
 
-@dataclass
 class BeeIterationResult:
-
+    #cost: float
     bestAgent: Agent = None
     worstAgent: Agent = None
 
-    def getPIDParams(self) -> List[float]:
+    @property
+    def PIDParams(self) -> List[float]:
         return [self.bestAgent.P, self.bestAgent.I, self.bestAgent.D]
 
-    def cost(self):
+    @property
+    def cost(self) -> float:
         return self.bestAgent.cost
         pass
 
@@ -36,7 +37,7 @@ class BeeAlgo:
         self.eng.addpath(self.matlabScriptsPath)
         print(colored("STARTED BeeAlgo matlab engine: " + str(datetime.datetime.now()),"blue"))
 
-        self.nargoutCount = 1
+        self.nargoutCount = 3
         self.functionName = "testFunction"
 
         self._agents = [Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True) for i in range(agentCount)]
