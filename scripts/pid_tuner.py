@@ -4,11 +4,21 @@ from agent import *
 from bee_algorithm import *
 
 
+@dataclass
+class IterationResult(BeeIterationResult):
+    iteration: int = 0
+    startIteration: int = 0
+    endIteration: int = 0
+    finished: bool = False
+
+
 class PidTuner:
     _running: bool
     _finishedIteration: bool
     _tunerThread: threading.Thread or None
     _result: IterationResult or None
+    _startIteration: int = 0
+    _endIteration: int = 0
 
     def __init__(self, agentCount=1, itCount=1):
         self._finishedAlgo = True
@@ -16,7 +26,7 @@ class PidTuner:
         self._iterations = itCount
         self._iterationCounter = 0
         self._tunerThread = None
-        self._result = None
+        self._result = IterationResult()
         self._ba = BeeAlgo(agentCount)
         pass
 
@@ -28,6 +38,9 @@ class PidTuner:
         print("Starting tuner")
         self._finishedAlgo = False
         self._finishedIteration = True
+        self._startIteration = self._iterationCounter
+        self._endIteration = self._iterationCounter + self._iterations
+
         self._tunerThread = threading.Thread(target=self.runIterLoop)
         self._tunerThread.setDaemon(True)
         self._tunerThread.start()
@@ -35,6 +48,7 @@ class PidTuner:
 
     def runIterLoop(self):
         i = 0
+
         while i < self._iterations:
             if self._finishedIteration is True:
                 self._iterationCounter += 1
@@ -56,9 +70,15 @@ class PidTuner:
         :return:
         """
         self._running = True
-        self._result = self._ba.run() #BLOCKING FUNCTION
-        self._result.iteration = self._iterationCounter
+        self._result = IterationResult(self._ba.run()) #BLOCKING FUNCTION
         self._running = False
+
+        self._result.iteration = self._iterationCounter
+        self._result.startIteration = self._startIteration
+        self._result.endIteration = self._endIteration
+
+        if self._result.iteration == self._result.endIteration:
+            self._result.finished = True
         pass
 
     def getIterationResult(self) -> IterationResult or None:

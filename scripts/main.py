@@ -49,29 +49,41 @@ class EvolutionalTuner:
 
         :return: None
         """
+
         while self._gui.isOpened:
             self._gui.update()
+
             if self._tuner is not None:
+                iterationResult: IterationResult
                 iterationResult = self._tuner.getIterationResult()  # CRITICAL!!! DO NOT REMOVE
 
                 if iterationResult is not None:
                     self.lcd_iteration.display(iterationResult.iteration)
-                    print(colored(" " + str(datetime.datetime.now()) + " | iteration:  " + str(iterationResult.iteration) + " | Lowest cost: " + str(iterationResult.bestAgent.cost), 'red'))
+
+                    if iterationResult.finished:
+                        self.button_tunerStart.enable()
+
+                    print(colored(" " + str(datetime.datetime.now()) +
+                                  " | iteration:  " + str(iterationResult.iteration) +
+                                  " | start iteration:  " + str(iterationResult.startIteration) +
+                                  " | end iteration:  " + str(iterationResult.endIteration) +
+                                  " | finished: " + str(iterationResult.finished) +
+                                  " | Lowest cost: " + str(iterationResult.bestAgent.cost),
+                                  'red'))
                     pass
 
         pass
 
     def start_tuner(self):
         if self._tuner is None:
+            self.button_tunerStart.disable()
             self._tuner = PidTuner(agentCount=self.spinbox_agentCount.value, itCount=self.spinbox_iterations.value)
 
         if self._tuner.finished:
+            self.button_tunerStart.disable()
             self._tuner._iterations = self.spinbox_iterations.value
             self._tuner.start()
         pass
-
-
-
 
 
 if __name__ == '__main__':

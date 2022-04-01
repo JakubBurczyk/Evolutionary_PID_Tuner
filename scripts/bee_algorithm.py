@@ -7,30 +7,33 @@ from dataclasses import dataclass
 
 
 @dataclass
-class IterationResult:
+class BeeIterationResult:
 
-    iteration: int = 0
     bestAgent: Agent = None
     worstAgent: Agent = None
 
     def getPIDParams(self) -> List[float]:
         return [self.bestAgent.P, self.bestAgent.I, self.bestAgent.D]
 
+    def cost(self):
+        return self.bestAgent.cost
+        pass
+
 
 class BeeAlgo:
-    _result: IterationResult or None
+    _result: BeeIterationResult or None
 
     def __init__(self, agentCount=1):
 
         self._running = True
         self._finished = False
 
-        print(colored("Starting BeeAlgo matlab engine: " + str(datetime.datetime.now()) + "...","green"))
         self.matlabScriptsPath = os.path.abspath(os.path.join(os.path.realpath(__file__), "../"*2,"matlab"))
         print(colored("Setting scripts path:" + self.matlabScriptsPath,"yellow"))
+
+        print(colored("Starting BeeAlgo matlab engine: " + str(datetime.datetime.now()) + "...", "green"))
         self.eng = matlab.engine.start_matlab()
         self.eng.addpath(self.matlabScriptsPath)
-
         print(colored("STARTED BeeAlgo matlab engine: " + str(datetime.datetime.now()),"blue"))
 
         self.nargoutCount = 1
@@ -52,7 +55,7 @@ class BeeAlgo:
         self._goodAreaBeesNumber = 0
         self.setAreaBeesNumber()
 
-        self.result = IterationResult
+        self.result = BeeIterationResult
         #self._areaBees = []
 
         pass

@@ -146,6 +146,16 @@
          </item>
         </layout>
        </widget>
+       <widget class="QTextBrowser" name="textBrowser">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>150</y>
+          <width>571</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
