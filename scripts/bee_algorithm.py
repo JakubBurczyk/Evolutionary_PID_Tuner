@@ -135,7 +135,7 @@ class BeeAlgo:
                 Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True))
 
 
-        print(colored("NEW POPULATION"),"green")
+        print(colored("NEW POPULATION","green"))
         for agent in self._agents:
             print(agent)
 

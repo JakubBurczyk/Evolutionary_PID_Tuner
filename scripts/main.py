@@ -4,10 +4,14 @@ import matplotlib.pyplot as plt
 
 from pid_tuner import *
 from gui import *
+import pickle
+import dill
 
 
 class EvolutionalTuner:
     addWidgets: Callable
+
+    iterationResult: IterationResult
 
     mainWin: Window
     button_tunerStart: widgets.Button
@@ -57,24 +61,25 @@ class EvolutionalTuner:
             self._gui.update()
 
             if self._tuner is not None:
-                iterationResult: IterationResult
-                iterationResult = self._tuner.getIterationResult()  # CRITICAL!!! DO NOT REMOVE
 
-                if iterationResult is not None:
-                    self.lcd_iteration.display(iterationResult.iteration)
+                self.iterationResult = self._tuner.getIterationResult()  # CRITICAL!!! DO NOT REMOVE
 
-                    if iterationResult.finished:
+                if self.iterationResult is not None:
+                    self.lcd_iteration.display(self.iterationResult.iteration)
+
+                    if self.iterationResult.finished:
                         self.button_tunerStart.enable()
+                        self.save()
 
                     print(colored(" " + str(datetime.datetime.now()) +
-                                  " | iteration:  " + str(iterationResult.iteration) +
-                                  " | start iteration:  " + str(iterationResult.startIteration) +
-                                  " | end iteration:  " + str(iterationResult.endIteration) +
-                                  " | finished: " + str(iterationResult.finished) +
-                                  " | Lowest cost: " + str(iterationResult.cost),
+                                  " | iteration:  " + str(self.iterationResult.iteration) +
+                                  " | start iteration:  " + str(self.iterationResult.startIteration) +
+                                  " | end iteration:  " + str(self.iterationResult.endIteration) +
+                                  " | finished: " + str(self.iterationResult.finished) +
+                                  " | Lowest cost: " + str(self.iterationResult.cost),
                                   'red'))
 
-                    plt.plot(iterationResult.bestAgent.t, iterationResult.bestAgent.response)
+                    plt.plot(self.iterationResult.bestAgent.t, self.iterationResult.bestAgent.response)
                     plt.show()
                     pass
 
@@ -90,6 +95,14 @@ class EvolutionalTuner:
             self.button_tunerStart.disable()
             self._tuner._iterations = self.spinbox_iterations.value
             self._tuner.start()
+        pass
+
+    def save(self):
+        with open(f'iter_{self.iterationResult.iteration}_{datetime.datetime.strftime(datetime.datetime.now(),"%m-%d-%Y_T+%H-%M-%S")}','wb') as output_file:
+            print(dill.detect.trace(True))
+            print(dill.detect.baditems(self))
+            #pickle.dump(self,output_file,pickle.HIGHEST_PROTOCOL)
+            pass
         pass
 
 
