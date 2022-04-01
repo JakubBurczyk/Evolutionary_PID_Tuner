@@ -77,6 +77,7 @@ class EvolutionalTuner:
     def start_tuner(self):
         if self._tuner is None:
             self.button_tunerStart.disable()
+            #self._gui.update()
             self._tuner = PidTuner(agentCount=self.spinbox_agentCount.value, itCount=self.spinbox_iterations.value)
 
         if self._tuner.finished:

@@ -13,7 +13,7 @@ class IterationResult(BeeIterationResult):
 
 
 class PidTuner:
-    _running: bool
+    _running: bool = True
     _finishedIteration: bool
     _tunerThread: threading.Thread or None
     _result: IterationResult or None
@@ -27,7 +27,8 @@ class PidTuner:
         self._iterationCounter = 0
         self._tunerThread = None
         self._result = IterationResult()
-        self._ba = BeeAlgo(agentCount)
+        self._ba = None
+        self._agentCount = agentCount
         pass
 
     def __del__(self):
@@ -36,6 +37,7 @@ class PidTuner:
 
     def start(self):
         print("Starting tuner")
+
         self._finishedAlgo = False
         self._finishedIteration = True
         self._startIteration = self._iterationCounter
@@ -69,6 +71,9 @@ class PidTuner:
         @TODO: Implement algorithm
         :return:
         """
+        if self._ba is None:
+            self._ba = BeeAlgo(self._agentCount)
+
         self._running = True
         self._result = IterationResult(self._ba.run()) #BLOCKING FUNCTION
         self._running = False
