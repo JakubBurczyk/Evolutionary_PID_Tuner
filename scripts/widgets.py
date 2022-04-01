@@ -20,6 +20,9 @@ class Widget(ABC):
         self._widget = getattr(self._window, self._name)
         pass
 
+    def update(self):
+        pass
+
     @property
     def name(self):
         return self._name
@@ -36,6 +39,33 @@ class Button(Widget):
     def __init__(self, win: window.Window, name: str, function: Callable):
         super(Button, self).__init__(win, name)
         self._widget.clicked.connect(function)
+        pass
+
+    def disable(self) -> None:
+        self._widget.setEnabled(False)
+        pass
+
+    def enable(self) -> None:
+        self._widget.setEnabled(True)
+        pass
+
+    def setEnabled(self, state: bool):
+        self._widget.setEnabled(state)
+        pass
+
+    def toggleEnable(self) -> bool:
+        """
+        Switch button on/off
+        :return: bool, Returns resultant state of the button
+        """
+        state = self.enabled
+        self.setEnabled(not state)
+        return self.enabled
+        pass
+
+    @property
+    def enabled(self):
+        return self._widget.isEnabled()
         pass
 
 
@@ -97,10 +127,6 @@ class LCD(Widget):
         pass
 
     def update(self):
-        print(self._value)
-
-    def update(self):
-
         dt_ms = (datetime.datetime.now() - self.lastUpdate).total_seconds()
         if dt_ms >= self.updateDt:
             if self.getValue is not None:

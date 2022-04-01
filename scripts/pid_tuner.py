@@ -11,7 +11,7 @@ class PidTuner:
     _result: IterationResult or None
 
     def __init__(self, agentCount=1, itCount=1):
-        self._finishedAlgo = False
+        self._finishedAlgo = True
         self._finishedIteration = True
         self._iterations = itCount
         self._iterationCounter = 0
@@ -37,11 +37,12 @@ class PidTuner:
         i = 0
         while i < self._iterations:
             if self._finishedIteration is True:
-
+                self._iterationCounter += 1
                 print(f"Iter loop {self._iterationCounter}")
+
                 self._finishedIteration = False
                 self.runAlgo()  # THIS IS BLOCKING
-                self._iterationCounter += 1
+
                 i += 1
             else:
                 continue
@@ -56,6 +57,7 @@ class PidTuner:
         """
         self._running = True
         self._result = self._ba.run() #BLOCKING FUNCTION
+        self._result.iteration = self._iterationCounter
         self._running = False
         pass
 
@@ -82,3 +84,7 @@ class PidTuner:
         """
 
         return self._finishedIteration
+
+    @property
+    def finished(self) -> bool:
+        return self._finishedAlgo
