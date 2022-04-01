@@ -4,6 +4,7 @@ import datetime
 import threading
 import random
 
+import matplotlib.pyplot as plt
 import numpy
 from termcolor import colored
 import numpy as np
@@ -64,7 +65,6 @@ class Agent:
         #print(f"Thread[{self._thread}] START: ", datetime.datetime.now())
         try:
             self.cost, self.t, self.response = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
-
         except Exception as e:
             print(colored("AGENT ENCOUNTERED SIMULATION ERROR, DISMISSING HIS RESULT, Caused by:" + str(e)))
             self.cost = np.inf
@@ -74,7 +74,7 @@ class Agent:
     def finish(self) -> None:
         """
         Join agent's thread.
-        WARNING: This blocks the invoking thread untill this thread is finished.
+        WARNING: This blocks the invoking thread until this thread is finished.
 
         :return: None
         """

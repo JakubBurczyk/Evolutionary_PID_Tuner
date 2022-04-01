@@ -1,4 +1,7 @@
 import random
+
+import matplotlib.pyplot as plt
+
 from pid_tuner import *
 from gui import *
 
@@ -70,6 +73,9 @@ class EvolutionalTuner:
                                   " | finished: " + str(iterationResult.finished) +
                                   " | Lowest cost: " + str(iterationResult.cost),
                                   'red'))
+
+                    plt.plot(iterationResult.bestAgent.t, iterationResult.bestAgent.response)
+                    plt.show()
                     pass
 
         pass
