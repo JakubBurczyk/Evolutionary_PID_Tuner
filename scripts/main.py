@@ -1,10 +1,13 @@
 import random
 
-from ea_pid_tuner import *
+from pid_tuner import *
 from gui import *
 
 if __name__ == '__main__':
-    tuner = PidTuner(agentCount=10, itCount=20)
+    data: IterationResult
+
+
+    tuner = PidTuner(agentCount=15, itCount=2)
 
     gui = GUI()
     mainWin = gui.addWindow(name="mainWindow", file="GUI_v1.ui")
@@ -24,13 +27,16 @@ if __name__ == '__main__':
 
     while gui.isOpened:
         gui.update()
-        data = tuner.getIteration() #CRITICAL!!! DO NOT REMOVE
+        data = tuner.getIterationResult() #CRITICAL!!! DO NOT REMOVE
         #testValue = random.random()
         testValue = spinbox_one.value
 
         if data is not None:
             dispIterCnt = data
-            print(colored(" " + str(datetime.datetime.now()) + " |  " + str(data), 'red'))
+            print(colored(" " + str(datetime.datetime.now()) + " |  " + str(data.bestAgent.cost) , 'red'))
+
+            pass
+        else:
             pass
 
         pass

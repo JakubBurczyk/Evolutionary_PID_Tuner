@@ -3,9 +3,22 @@ import matlab.engine
 import os
 from termcolor import colored
 import atexit
+from dataclasses import dataclass
+
+
+@dataclass
+class IterationResult:
+
+    iteration: int = 0
+    bestAgent: Agent = None
+    worstAgent: Agent = None
+
+    def getPIDParams(self) -> List[float]:
+        return [self.bestAgent.P, self.bestAgent.I, self.bestAgent.D]
 
 
 class BeeAlgo:
+    _result: IterationResult or None
 
     def __init__(self, agentCount=1):
 
@@ -24,7 +37,7 @@ class BeeAlgo:
         self.functionName = "testFunction"
 
         self._agents = [Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True) for i in range(agentCount)]
-        atexit.register(self.kill)
+        atexit.register(self.killMatlab)
 
         self.agentCount = agentCount
         self._eliteNumber = 0
@@ -39,6 +52,7 @@ class BeeAlgo:
         self._goodAreaBeesNumber = 0
         self.setAreaBeesNumber()
 
+        self.result = IterationResult
         #self._areaBees = []
 
         pass
@@ -54,17 +68,22 @@ class BeeAlgo:
         self._eliteAreaBeesNumber = int(0.4 * self.agentCount)
         self._goodAreaBeesNumber = int(0.2 * self.agentCount)
 
-    def kill(self):
+    def killMatlab(self):
         print(colored("Killing BA matlab engine","red"))
         self.eng.exit()
 
     def run(self):
+        """
+        BLOCKING FUNCTION, Runs the Bee Algorithm
+        :return:
+        """
         self.runAgents(self._agents)  # evaluation
         self.selectBestBees()
         allAreas = self.recruitNewBees()
         temp = sum(allAreas.values(), [])
         self.runAgents(temp)
         self.selectNewPopulation(allAreas)
+        return self.result
 
     def selectBestBees(self):
         self._agents.sort(key=lambda ag: ag.cost, reverse=False)
@@ -101,14 +120,20 @@ class BeeAlgo:
         for leadBee, bees in allAreas.items():
             bees.append(leadBee)
             bees.sort(key=lambda ag: ag.cost, reverse=False)
-
-            for b in bees:
-                print(b.cost)
             self._agents.append(bees[0])
+
+        self._agents.sort(key=lambda ag: ag.cost, reverse=False)
+        self.result.bestAgent = self._agents[0]
+        self.result.worstAgent = self._agents[-1]
 
         while len(self._agents) < self.agentCount:
             self._agents.append(
                 Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True))
+
+
+        print(colored("NEW POPULATION"),"green")
+        for agent in self._agents:
+            print(agent)
 
     def runAgents(self, agents: List[Agent]) -> None:
         """

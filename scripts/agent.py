@@ -3,7 +3,9 @@ import os
 import datetime
 import threading
 import random
-import termcolor
+
+import numpy
+from termcolor import colored
 import numpy as np
 from typing import List
 import time
@@ -31,7 +33,7 @@ class Agent:
         self.P = 1
         self.I = 1
         self.D = 1
-        self.cost = 0
+        self.cost = np.inf
 
         if randomInit:
             self.randomInit()
@@ -56,9 +58,14 @@ class Agent:
         pass
 
     def run(self):
-        #print(self)
+
         #print(f"Thread[{self._thread}] START: ", datetime.datetime.now())
-        self.cost = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
+        try:
+            self.cost = self._eng.eval(f"{self._functionName}({self.P},{self.I},{self.D})", nargout=self.nargoutCount)
+
+        except Exception as e:
+            print(colored("AGENT ENCOUNTERED SIMULATION ERROR, DISMISSING HIS RESULT, Caused by:" + e.__cause__))
+            self.cost = np.inf
         #print(f"Thread[{self._thread}] FINISH: ", datetime.datetime.now())
         pass
 
@@ -81,4 +88,4 @@ class Agent:
         return self._thread.is_alive()
 
     def __str__(self):
-        return termcolor.colored(f"Bee |Thread: {self._thread} | P: {self.P} | I: {self.I} | D: {self.D} | Cost: {self.cost}", 'yellow')
+        return colored(f"Bee |Thread: {self._thread} | P: {self.P} | I: {self.I} | D: {self.D} | Cost: {self.cost}", 'yellow')
