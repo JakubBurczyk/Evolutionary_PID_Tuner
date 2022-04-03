@@ -19,14 +19,15 @@ class EvolutionalTuner:
     spinbox_iterations: widgets.SpinBox
     lcd_iteration: widgets.LCD
 
-    def __init__(self):
+    def __init__(self, mainUiFile):
         self._gui = GUI()
 
-        self.mainWin = self._gui.addWindow(name="mainWindow", file="GUI_v1.ui")
+        self.mainWin = self._gui.addWindow(name="mainWindow", file=mainUiFile)
         self._gui.openWindow(name="mainWindow")
 
         self._tuner = None
-        #self.button_randomDisp = None
+        self.iterationResult = IterationResult()
+
         self.addWidgets()
 
         pass
@@ -47,6 +48,10 @@ class EvolutionalTuner:
 
         '''LCD DISPLAYS'''
         self.lcd_iteration = self.mainWin.addLCD("lcdNumber_iteration")
+        self.lcd_iteration.setCallback(lambda: self.iterationResult.iteration)
+        '''ACTIONS'''
+        self.mainWin.addAction_("action_save", self.save)
+        self.mainWin.addAction_("action_load", self.load)
 
         pass
 
@@ -62,14 +67,14 @@ class EvolutionalTuner:
 
             if self._tuner is not None:
 
-                self.iterationResult = self._tuner.getIterationResult()  # CRITICAL!!! DO NOT REMOVE
+                iterationResult = self._tuner.getIterationResult()  # CRITICAL!!! DO NOT REMOVE
 
-                if self.iterationResult is not None:
-                    self.lcd_iteration.display(self.iterationResult.iteration)
+                if iterationResult is not None:
+                    self.iterationResult = iterationResult
+                    #self.lcd_iteration.display(self.iterationResult.iteration)
 
                     if self.iterationResult.finished:
                         self.button_tunerStart.enable()
-                        self.save()
 
                     print(colored(" " + str(datetime.datetime.now()) +
                                   " | iteration:  " + str(self.iterationResult.iteration) +
@@ -98,16 +103,27 @@ class EvolutionalTuner:
         pass
 
     def save(self):
-        with open(f'iter_{self.iterationResult.iteration}_{datetime.datetime.strftime(datetime.datetime.now(),"%m-%d-%Y_T+%H-%M-%S")}','wb') as output_file:
-            print(dill.detect.trace(True))
-            print(dill.detect.baditems(self))
-            #pickle.dump(self,output_file,pickle.HIGHEST_PROTOCOL)
+        print(colored("Attempting save", "red"))
+        print(dill.detect.trace(True))
+        print(dill.detect.baditems(self._tuner))
+        with open(f'iter_{self.iterationResult.iteration}_{datetime.datetime.strftime(datetime.datetime.now(), "%m-%d-%Y_T+%H-%M-%S")}', 'wb') as output_file:
+            pickle.dump(self._tuner, output_file, pickle.HIGHEST_PROTOCOL)
             pass
+        pass
+
+    def load(self):
+        print(colored("Attempting load", "red"))
+        filePath = QFileDialog.getOpenFileName(self.mainWin, 'Open a file', '', 'All Files (*.*)')
+        if filePath != ('', ''):
+            with open(f'iter_{self.iterationResult.iteration}_{datetime.datetime.strftime(datetime.datetime.now(), "%m-%d-%Y_T+%H-%M-%S")}', 'wb') as input_file:
+                print(colored(filePath[0], "blue"))
+                self._tuner = pickle.load(input_file)
+                pass
         pass
 
 
 if __name__ == '__main__':
-    evolutionalTunerApp = EvolutionalTuner()
+    evolutionalTunerApp = EvolutionalTuner("GUI_v1.ui")
     evolutionalTunerApp.run()
 
     """

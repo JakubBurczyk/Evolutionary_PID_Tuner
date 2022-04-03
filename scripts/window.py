@@ -26,6 +26,7 @@ class Window(QMainWindow):
         self.buttons: Dict[str, widgets.Button] = {}
         self.lcds: Dict[str, widgets.LCD] = {}
         self.spinboxes: Dict[str, widgets.SpinBoxAbstract] = {}
+        self.actions: Dict[str, QAction] = {}
 
     def say(self, msg=None):
         print(self._name + " | MSG = " + msg)
@@ -64,6 +65,16 @@ class Window(QMainWindow):
             if lcd.updateable:
                 lcd.update()
         pass
+
+    def addAction_(self, name: str, function: Callable):
+        action = getattr(self, name)
+        if isinstance(action, QAction):
+            action.triggered.connect(function)
+            self.actions[name] = action
+            return self.actions[name]
+        else:
+            raise Exception(f"No action named {name} is created in the UI.")
+        return None
 
     def addButton(self, name, function: Callable) -> 'widgets.Button':
         """
