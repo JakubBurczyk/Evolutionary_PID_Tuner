@@ -3,7 +3,8 @@ import os
 import datetime
 import threading
 import random
-
+import pickle
+import dill
 import matplotlib.pyplot as plt
 import numpy
 from termcolor import colored
@@ -91,3 +92,20 @@ class Agent:
 
     def __str__(self):
         return colored(f"Bee |Thread: {self._thread} | P: {self.P} | I: {self.I} | D: {self.D} | Cost: {self.cost}", 'yellow')
+
+
+if __name__ == '__main__':
+    eng = matlab.engine.start_matlab()
+    agentCount = 3
+
+    agents = [Agent(eng=eng, functionName="test", nargoutCount=4, randomInit=True) for i in range(agentCount)]
+    for agent in agents:
+        agent._thread = None
+    print(colored("Attempting save", "red"))
+    print(dill.detect.trace(True))
+    print(dill.detect.baditems(agents))
+    with open(
+            f'agents_{datetime.datetime.strftime(datetime.datetime.now(), "%m-%d-%Y_T+%H-%M-%S")}','wb') as output_file:
+        pickle.dump(agents, output_file, pickle.HIGHEST_PROTOCOL)
+        pass
+    pass
