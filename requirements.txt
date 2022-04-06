@@ -2,3 +2,5 @@ numpy
 matplotlib
 pyqt5
 termcolor
+pickle
+dill
