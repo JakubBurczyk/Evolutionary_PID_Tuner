@@ -47,10 +47,10 @@ class Agent:
             self.D = d
         pass
 
-    def randomInit(self, mean: float = 1, std_deviation: float = 1):
-        self.P = np.random.normal(loc=mean, scale=std_deviation, size=1)
-        self.I = np.random.normal(loc=mean, scale=std_deviation, size=1)
-        self.D = np.random.normal(loc=mean, scale=std_deviation, size=1)
+    def randomInit(self, mean: float = 100, std_deviation: float = 100):
+        self.P = max(0, np.random.normal(loc=mean, scale=std_deviation, size=1))
+        self.I = max(0, np.random.normal(loc=mean, scale=std_deviation, size=1))
+        self.D = max(0, np.random.normal(loc=mean, scale=std_deviation, size=1))
 
     def start(self, threadList: list[threading.Thread] = None):
         self._thread = threading.Thread(target=self.run)

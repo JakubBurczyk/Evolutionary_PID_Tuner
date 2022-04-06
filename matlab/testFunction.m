@@ -21,7 +21,7 @@ regulation_time=info.SettlingTime; %t
 if regulation_time>=time_of_simulation
     r_time=response.time;
     last_index_=length(r_time);
-    regultion_time=time_of_simulation;
+    regulation_time=time_of_simulation;
 else
     r_time=response.time;                    %choosing only regulation time
     index=find(regulation_time<r_time);
@@ -58,5 +58,8 @@ for i=1:length(ex)-1
     f_tex=f_tex+(0.5*(t2-t1)*(c1+c2));
     f_tex2=f_tex2+(0.5*(t2-t1)*(d1+d2));
 end
-
-cost=f_ex2+Overshoot+regulation_time;
+alpha = 5000;
+beta = 1;
+gamma = 1;
+cost=alpha*f_ex2+beta*Overshoot+gamma*regulation_time;
+fprintf('f_ex2: %.2f, Overshoot: %.2f, regulation_time: %.2f\n', alpha*f_ex2/cost, beta*Overshoot/cost, gamma*regulation_time/cost);

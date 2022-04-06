@@ -85,6 +85,7 @@ class EvolutionalTuner:
                                   'red'))
 
                     plt.plot(self.iterationResult.bestAgent.t, self.iterationResult.bestAgent.response)
+                    plt.title(f"Iteration: {self.iterationResult.iteration}")
                     plt.show()
                     pass
 
