@@ -51,7 +51,7 @@ class BeeAlgo:
         self._eliteBees = []
         self._goodBees = []
 
-        self._searchArea = 1
+        self._searchArea = 10
         self._eliteAreaBeesNumber = 0
         self._goodAreaBeesNumber = 0
         self.setAreaBeesNumber()
