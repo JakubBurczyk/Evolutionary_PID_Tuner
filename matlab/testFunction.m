@@ -5,7 +5,7 @@ assignin('base',"P",KP)
 assignin('base',"I",KI)
 assignin('base',"D",KD)
 
-time_of_simulation=10; %[s]
+time_of_simulation=2; %[s]
 
 out = sim("untitled1.slx");
 response = out.yout;
@@ -58,6 +58,7 @@ for i=1:length(ex)-1
     f_tex=f_tex+(0.5*(t2-t1)*(c1+c2));
     f_tex2=f_tex2+(0.5*(t2-t1)*(d1+d2));
 end
+
 alpha = 5000;
 beta = 1;
 gamma = 1;
