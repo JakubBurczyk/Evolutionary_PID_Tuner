@@ -62,6 +62,8 @@ class EvolutionalTuner:
         :return: None
         """
 
+        best_costs = []
+
         while self._gui.isOpened:
             self._gui.update()
 
@@ -87,7 +89,15 @@ class EvolutionalTuner:
                     plt.plot(self.iterationResult.bestAgent.t, self.iterationResult.bestAgent.response)
                     plt.title(f"Iteration: {self.iterationResult.iteration}")
                     plt.show()
-                    pass
+
+                    best_costs.append(self.iterationResult.cost)
+                    print(colored(best_costs, 'magenta'))
+
+                    if self.iterationResult.endIteration == len(best_costs):
+                        print("HERE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                        plt.plot(range(len(best_costs)), best_costs)
+                        plt.title("Best values of cost function per iteration")
+                        plt.show()
 
         pass
 
