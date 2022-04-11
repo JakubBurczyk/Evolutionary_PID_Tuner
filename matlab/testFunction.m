@@ -59,13 +59,13 @@ for i=1:length(ex)-1
     f_tex2=f_tex2+(0.5*(t2-t1)*(d1+d2));
 end
 
-alpha = 2500;
+alpha = 1000;
 beta = 1;
-gamma = 10;
+gamma = 1;
 
 if Overshoot <= 0
     Overshoot = 1;
 end
 
-cost=alpha*f_ex2*beta*Overshoot+gamma*regulation_time;
-fprintf('f_ex2: %.2f, Overshoot: %.2f, regulation_time: %.2f\n', alpha*f_ex2/cost, beta*Overshoot/cost, gamma*regulation_time/cost);
+cost=alpha*f_ex2*beta*Overshoot*gamma*regulation_time;
+%fprintf('f_ex2: %.2f, Overshoot: %.2f, regulation_time: %.2f\n', f_ex2/cost, beta*Overshoot/cost, gamma*regulation_time/cost);

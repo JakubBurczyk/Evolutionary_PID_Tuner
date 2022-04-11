@@ -105,6 +105,9 @@ class EvolutionalTuner:
 
                     plt.plot(self.iterationResult.bestAgent.t, self.iterationResult.bestAgent.response)
                     plt.title(f"Iteration: {self.iterationResult.iteration}")
+                    if iterationResult.iteration == 1:
+                        plt.savefig('response_i1.jpg')
+
                     plt.savefig('response.jpg')
                     plt.show()
 
