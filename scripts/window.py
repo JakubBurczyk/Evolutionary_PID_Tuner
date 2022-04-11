@@ -27,6 +27,7 @@ class Window(QMainWindow):
         self.lcds: Dict[str, widgets.LCD] = {}
         self.spinboxes: Dict[str, widgets.SpinBoxAbstract] = {}
         self.actions: Dict[str, QAction] = {}
+        self.pixmaps: Dict[str, widgets.Pixmap] = {}
 
     def say(self, msg=None):
         print(self._name + " | MSG = " + msg)
@@ -64,6 +65,9 @@ class Window(QMainWindow):
         for name, lcd in self.lcds.items():
             if lcd.updateable:
                 lcd.update()
+
+        for name, pixmap in self.pixmaps.items():
+            pixmap.update()
         pass
 
     def addAction_(self, name: str, function: Callable):
@@ -113,6 +117,9 @@ class Window(QMainWindow):
         self.spinboxes[name] = spinbox
         return self.spinboxes[name]
 
+    def addPixMap(self, name, path):
+        self.pixmaps[name] = widgets.Pixmap(self, name, path)
+        return self.pixmaps[name]
     @property
     def isOpened(self) -> bool:
         """

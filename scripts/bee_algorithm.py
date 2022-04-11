@@ -6,6 +6,13 @@ import atexit
 from dataclasses import dataclass
 
 
+@dataclass()
+class BeeAlgoParams:
+    mean: float = 10
+    std: float = 10
+    search: float = 0.5
+
+
 class BeeIterationResult:
     #cost: float
     bestAgent: Agent = None
@@ -24,7 +31,7 @@ class BeeIterationResult:
 class BeeAlgo:
     _result: BeeIterationResult or None
 
-    def __init__(self, agentCount=1):
+    def __init__(self, agentCount=1, params:BeeAlgoParams= BeeAlgoParams()):
 
         self._running = True
         self._finished = False
@@ -40,7 +47,10 @@ class BeeAlgo:
         self.nargoutCount = 3
         self.functionName = "testFunction"
 
-        self._agents = [Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True) for i in range(agentCount)]
+        self.randomInit_mean = params.mean
+        self.randomInit_std = params.std
+
+        self._agents = [Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True, mean=self.randomInit_mean, std=self.randomInit_std) for i in range(agentCount)]
         atexit.register(self.killMatlab)
 
         self.agentCount = agentCount
@@ -51,14 +61,14 @@ class BeeAlgo:
         self._eliteBees = []
         self._goodBees = []
 
-        self._searchArea = 1
+        self._searchArea = params.search
         self._eliteAreaBeesNumber = 0
         self._goodAreaBeesNumber = 0
         self.setAreaBeesNumber()
 
         self.result = BeeIterationResult
         #self._areaBees = []
-
+        print(f"PARAMS | {self.randomInit_mean} | {self.randomInit_std} | {self._searchArea}")
         pass
 
     def setBeesNumber(self):
@@ -132,7 +142,7 @@ class BeeAlgo:
 
         while len(self._agents) < self.agentCount:
             self._agents.append(
-                Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True))
+                Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True, mean=self.randomInit_mean, std=self.randomInit_std))
 
 
         print(colored("NEW POPULATION","green"))
