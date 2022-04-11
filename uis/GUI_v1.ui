@@ -109,7 +109,7 @@
           <x>190</x>
           <y>10</y>
           <width>160</width>
-          <height>61</height>
+          <height>75</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -149,6 +149,13 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_restartTuner">
+           <property name="text">
+            <string>Restart tuner</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -251,9 +258,9 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>100</y>
+          <y>90</y>
           <width>111</width>
-          <height>111</height>
+          <height>121</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">

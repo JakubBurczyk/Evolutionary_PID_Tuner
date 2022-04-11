@@ -29,6 +29,7 @@ class EvolutionalTuner:
         self.iterationResult = IterationResult()
 
         self.addWidgets()
+        self.best_costs = []
 
         pass
 
@@ -41,7 +42,7 @@ class EvolutionalTuner:
         '''BUTTONS'''
         self.button_tunerStart = self.mainWin.addButton("pushButton_startTuner", self.start_tuner)
         #self.button_randomDisp = mainWin.addButton("pushButton_2",lambda: gui.windows["mainWindow"].lcds["lcdNumber"].display(random.random()))
-
+        self.button_restart = self.mainWin.addButton("pushButton_restartTuner", self.restart)
         '''SPINBOXES'''
         self.spinbox_agentCount = self.mainWin.addSpinBox("spinBox_agentCount", double=False)
         self.spinbox_iterations = self.mainWin.addSpinBox("spinBox_iterations", double=False)
@@ -75,8 +76,6 @@ class EvolutionalTuner:
         :return: None
         """
 
-        best_costs = []
-
         while self._gui.isOpened:
             self._gui.update()
 
@@ -94,6 +93,7 @@ class EvolutionalTuner:
 
                     if self.iterationResult.finished:
                         self.button_tunerStart.enable()
+                        self.button_restart.enable()
 
                     print(colored(" " + str(datetime.datetime.now()) +
                                   " | iteration:  " + str(self.iterationResult.iteration) +
@@ -108,12 +108,12 @@ class EvolutionalTuner:
                     plt.savefig('response.jpg')
                     plt.show()
 
-                    best_costs.append(self.iterationResult.cost)
-                    print(colored(best_costs, 'magenta'))
+                    self.best_costs.append(self.iterationResult.cost)
+                    print(colored(self.best_costs, 'magenta'))
 
-                    if self.iterationResult.endIteration == len(best_costs):
+                    if self.iterationResult.endIteration == len(self.best_costs):
                         print("HERE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                        plt.plot(range(len(best_costs)), best_costs)
+                        plt.plot(range(len(self.best_costs)), self.best_costs)
                         plt.title("Best values of cost function per iteration")
                         plt.savefig('costs.jpg')
                         plt.show()
@@ -124,6 +124,7 @@ class EvolutionalTuner:
     def start_tuner(self):
         ba_params: BeeAlgoParams
         if self._tuner is None:
+            self.button_restart.disable()
             self.button_tunerStart.disable()
             self.spinbox_mean.disable()
             self.spinbox_std.disable()
@@ -139,6 +140,7 @@ class EvolutionalTuner:
 
         if self._tuner.finished:
             self.button_tunerStart.disable()
+            self.button_restart.disable()
             self._tuner._iterations = self.spinbox_iterations.value
             self._tuner.start()
         pass
@@ -162,12 +164,36 @@ class EvolutionalTuner:
                 pass
         pass
 
+    def restart(self):
+        self._tuner = None
+        self.iterationResult = IterationResult()
+        self.spinbox_mean.enable()
+        self.spinbox_std.enable()
+        self.spinbox_search.enable()
+        self.spinbox_agentCount.enable()
+        self.best_costs = []
+
+        self.lcd_cost.display(0)
+        self.lcd_P.display(0)
+        self.lcd_I.display(0)
+        self.lcd_D.display(0)
+        try:
+            os.remove("costs.jpg")
+            os.remove("response.jpg")
+        except:
+            pass
+
 
 if __name__ == '__main__':
+    try:
+        os.remove("costs.jpg")
+        os.remove("response.jpg")
+    except:
+        pass
+
     evolutionalTunerApp = EvolutionalTuner("GUI_v1.ui")
     evolutionalTunerApp.run()
-    os.remove("costs.jpg")
-    os.remove("response.jpg")
+
     """
     data: IterationResult
 
