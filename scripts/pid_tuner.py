@@ -20,13 +20,14 @@ class PidTuner:
     _startIteration: int = 0
     _endIteration: int = 0
 
-    def __init__(self, agentCount=1, itCount=1):
+    def __init__(self, agentCount=1, itCount=1, ba_params:BeeAlgoParams=BeeAlgoParams()):
         self._finishedAlgo = True
         self._finishedIteration = True
         self._iterations = itCount
         self._iterationCounter = 0
         self._tunerThread = None
         self._result = IterationResult()
+        self._ba_params = ba_params
         self._ba = None
         self._agentCount = agentCount
         pass
@@ -72,7 +73,7 @@ class PidTuner:
         :return:
         """
         if self._ba is None:
-            self._ba = BeeAlgo(self._agentCount)
+            self._ba = BeeAlgo(agentCount=self._agentCount,params=self._ba_params)
 
         self._running = True
         self._result = IterationResult(self._ba.run()) #BLOCKING FUNCTION

@@ -1,14 +1,15 @@
 import datetime
 
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QPixmap
 from PyQt5 import *
 from PyQt5 import QtWidgets, uic, QtGui
 import sys
 from termcolor import colored
-
+import numpy as np
 from typing import Callable
 import scripts.window as window
-
+import os
 from abc import ABC
 
 
@@ -18,27 +19,6 @@ class Widget(ABC):
         self._window = win
         self._name = name
         self._widget = getattr(self._window, self._name)
-        pass
-
-    def update(self):
-        pass
-
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def widget(self):
-        return self._widget
-        pass
-
-
-class Button(Widget):
-    _widget: QPushButton
-
-    def __init__(self, win: window.Window, name: str, function: Callable):
-        super(Button, self).__init__(win, name)
-        self._widget.clicked.connect(function)
         pass
 
     def disable(self) -> None:
@@ -63,9 +43,30 @@ class Button(Widget):
         return self.enabled
         pass
 
+    def update(self):
+        pass
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def widget(self):
+        return self._widget
+        pass
+
     @property
     def enabled(self):
         return self._widget.isEnabled()
+        pass
+
+
+class Button(Widget):
+    _widget: QPushButton
+
+    def __init__(self, win: window.Window, name: str, function: Callable):
+        super(Button, self).__init__(win, name)
+        self._widget.clicked.connect(function)
         pass
 
 
@@ -98,6 +99,31 @@ class DoubleSpinBox(SpinBoxAbstract):
         pass
 
 
+class Pixmap(Widget):
+    _widget: QLabel
+
+    def __init__(self, win: window.Window, name: str, imgPath):
+        super(Pixmap, self).__init__(win, name)
+        self.imgPath = imgPath
+        self.pixmap = QPixmap(self.imgPath)
+        self._widget.setPixmap(self.pixmap)
+        self._widget.setScaledContents(True)
+
+        self.frequency = 1  # Hz
+        self.updateDt = 1 / self.frequency
+        self.lastUpdate = datetime.datetime.now()
+        pass
+
+    def update(self):
+        dt_ms = (datetime.datetime.now() - self.lastUpdate).total_seconds()
+        if dt_ms >= self.updateDt:
+            self.pixmap = QPixmap(self.imgPath)
+            self._widget.setPixmap(self.pixmap)
+            self._widget.setScaledContents(True)
+        else:
+            pass
+
+
 class LCD(Widget):
     _widget: QLCDNumber
     getValue: Callable
@@ -123,6 +149,13 @@ class LCD(Widget):
 
     def display(self, value):
         #print(f"LCD: {self.name} displaying: {self.value}")
+        if isinstance(value, np.ndarray):
+            vlist = value.tolist()
+            if len(vlist) > 0:
+                value = vlist[0]
+            else:
+                value = 0
+
         self._widget.display(value)
         pass
 

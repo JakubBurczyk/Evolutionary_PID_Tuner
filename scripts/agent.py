@@ -24,7 +24,7 @@ class Agent:
     D: float
     cost: float
 
-    def __init__(self, eng: matlab.engine, functionName: str, nargoutCount:int , randomInit: bool = False, p: float = 1.0, i: float = 1.0, d: float = 1.0):
+    def __init__(self, eng: matlab.engine, functionName: str, nargoutCount:int , randomInit: bool = False, p: float = 1.0, i: float = 1.0, d: float = 1.0, mean = 10, std = 10):
         self._eng = eng
         self._functionName = functionName
         self.nargoutCount = nargoutCount
@@ -39,18 +39,35 @@ class Agent:
         self.t = []
         self.response = []
 
+        self.mean = mean
+        self.std_deviation = std
         if randomInit:
             self.randomInit()
         else:
-            self.P = p
-            self.I = i
-            self.D = d
+            if isinstance(p, np.ndarray):
+                self.P = p.tolist()[0]
+            else:
+                self.P = p
+
+            if isinstance(i, np.ndarray):
+                self.I = i.tolist()[0]
+            else:
+                self.I = i
+
+            if isinstance(d, np.ndarray):
+                self.D = d.tolist()[0]
+            else:
+                self.D = d
+            #self.P = p
+            #self.I = i
+            #self.D = d
         pass
 
-    def randomInit(self, mean: float = 100, std_deviation: float = 100):
-        self.P = max(0, np.random.normal(loc=mean, scale=std_deviation, size=1))
-        self.I = max(0, np.random.normal(loc=mean, scale=std_deviation, size=1))
-        self.D = max(0, np.random.normal(loc=mean, scale=std_deviation, size=1))
+    def randomInit(self):
+
+        self.P = max(0, np.random.normal(loc=self.mean, scale=self.std_deviation, size=1))
+        self.I = max(0, np.random.normal(loc=self.mean, scale=self.std_deviation, size=1))
+        self.D = max(0, np.random.normal(loc=self.mean, scale=self.std_deviation, size=1))
 
     def start(self, threadList: list[threading.Thread] = None):
         self._thread = threading.Thread(target=self.run)
