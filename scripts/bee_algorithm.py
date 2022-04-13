@@ -71,6 +71,9 @@ class BeeAlgo:
         print(f"PARAMS | {self.randomInit_mean} | {self.randomInit_std} | {self._searchArea}")
         pass
 
+    def __del__(self):
+        self.killMatlab()
+
     def setBeesNumber(self):
         self._eliteNumber = max(1, int(0.2 * self.agentCount))
         if self.agentCount == 1:
