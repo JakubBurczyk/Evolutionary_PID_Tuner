@@ -34,6 +34,7 @@ class PidTuner:
 
     def __del__(self):
         print("Deleting pid tuner")
+        print(type, self._ba)
         del self._ba
 
     def start(self):

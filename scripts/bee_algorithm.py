@@ -51,7 +51,7 @@ class BeeAlgo:
         self.randomInit_std = params.std
 
         self._agents = [Agent(eng=self.eng, functionName=self.functionName, nargoutCount=self.nargoutCount, randomInit=True, mean=self.randomInit_mean, std=self.randomInit_std) for i in range(agentCount)]
-        atexit.register(self.killMatlab)
+        #atexit.register(self.killMatlab)
 
         self.agentCount = agentCount
         self._eliteNumber = 0
@@ -72,6 +72,7 @@ class BeeAlgo:
         pass
 
     def __del__(self):
+        print("BA Destructor")
         self.killMatlab()
 
     def setBeesNumber(self):
@@ -87,7 +88,7 @@ class BeeAlgo:
 
     def killMatlab(self):
         print(colored("Killing BA matlab engine","red"))
-        self.eng.exit()
+        self.eng.quit()
 
     def run(self):
         """

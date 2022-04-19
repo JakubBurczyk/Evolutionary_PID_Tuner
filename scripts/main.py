@@ -168,6 +168,7 @@ class EvolutionalTuner:
         pass
 
     def restart(self):
+        del self._tuner
         self._tuner = None
         self.iterationResult = IterationResult()
         self.spinbox_mean.enable()
